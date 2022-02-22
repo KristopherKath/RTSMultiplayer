@@ -10,10 +10,6 @@ public class UnitSpawner : NetworkBehaviour, IPointerClickHandler
     [SerializeField] private Transform spawnPoint;
 
 
-
-
-
-
     #region Server
 
     [Command]
