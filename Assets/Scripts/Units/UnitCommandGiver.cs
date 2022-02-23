@@ -10,8 +10,11 @@ public class UnitCommandGiver : MonoBehaviour
     [SerializeField] private LayerMask layerMask = new LayerMask();
     private Camera mainCamera;
 
-    private void Start()
+    private void Awake()
     {
+        if (!unitSelectionHandler)
+            unitSelectionHandler = gameObject.GetComponent<UnitSelectionHandler>();
+
         mainCamera = Camera.main;
     }
 
