@@ -7,11 +7,15 @@ using Mirror;
 [RequireComponent(typeof(NavMeshAgent))]
 public class UnitMovement : NetworkBehaviour
 {
+    [Tooltip("The targeter script to handle targeting calls")]
+    [SerializeField] private Targeter targeter = null;
+    
     private NavMeshAgent agent = null;
 
     private void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        targeter = gameObject.GetComponent<Targeter>();
     }
 
 
@@ -32,7 +36,10 @@ public class UnitMovement : NetworkBehaviour
     [Command]
     public void CmdMove(Vector3 pos)
     {
-        //Validate
+        if (targeter)
+            targeter.ClearTarget();
+
+        //Validate position
         if (!NavMesh.SamplePosition(pos, out NavMeshHit hit, 1f, NavMesh.AllAreas)) { return; }
 
         agent.SetDestination(hit.position);

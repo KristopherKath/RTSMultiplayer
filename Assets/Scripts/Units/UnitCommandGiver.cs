@@ -31,9 +31,36 @@ public class UnitCommandGiver : MonoBehaviour
 
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask)) { return; }
 
+        if (hit.collider.TryGetComponent<Targetable>(out Targetable target))
+        {
+            //If targetable object is ours then move to it
+            if (target.hasAuthority)
+            {
+                TryMove(hit.point);
+                return;
+            }
+
+            //Attack target
+            TryTarget(target);
+            return;
+        }
+
+        TryMove(hit.point);
+    }
+
+    private void TryMove(Vector3 point)
+    {
         foreach (Unit unit in unitSelectionHandler.SelectedUnits)
         {
-            unit.GetUnitMovement().CmdMove(hit.point);
+            unit.GetUnitMovement().CmdMove(point);
+        }
+    }
+
+    private void TryTarget(Targetable target)
+    {
+        foreach (Unit unit in unitSelectionHandler.SelectedUnits)
+        {
+            unit.GetTargeter().CmdSetTarget(target.gameObject);
         }
     }
 }

@@ -6,14 +6,16 @@ using UnityEngine.Events;
 using System;
 
 [RequireComponent(typeof(UnitMovement))]
+[RequireComponent(typeof(Targeter))]
 public class Unit : NetworkBehaviour
 {
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
-
+    [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnitMovement unitMovement = null;
+   
     public UnitMovement GetUnitMovement() => unitMovement;
-
+    public Targeter GetTargeter() => targeter;
 
     //These events are only being called on the server
     public static event Action<Unit> ServerOnUnitSpawned; //using a C# event
@@ -28,6 +30,9 @@ public class Unit : NetworkBehaviour
     {
         if (!unitMovement)
             unitMovement = gameObject.GetComponent<UnitMovement>();
+
+        if (!targeter)
+            targeter = gameObject.GetComponent<Targeter>();
     }
 
     #region Server
