@@ -18,6 +18,17 @@ public class UnitMovement : NetworkBehaviour
     //Server run procedures
     #region Server
 
+    
+    [ServerCallback] //Only server can call this method, and it wont log warnings to the console
+    private void Update()
+    {
+        if (!agent.hasPath) { return; } //stops bug where tanks dont move sometimes
+
+        if (agent.remainingDistance > agent.stoppingDistance) { return; }
+
+        agent.ResetPath(); //This will stop tanks from colliding with eachother to reach a location
+    }
+
     [Command]
     public void CmdMove(Vector3 pos)
     {

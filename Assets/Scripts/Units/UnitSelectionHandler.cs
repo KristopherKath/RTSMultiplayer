@@ -7,16 +7,18 @@ using Mirror;
 
 public class UnitSelectionHandler : MonoBehaviour
 {
-    [SerializeField] private RectTransform unitSelectionArea; 
+    public List<Unit> SelectedUnits { get; } = new List<Unit>();
 
+
+    [SerializeField] private RectTransform unitSelectionArea; 
     [SerializeField] private LayerMask layerMask = new LayerMask();
 
 
     private Vector2 startPos; //the start pos where mouse first clicks
-
     private RTSPlayer player;
     private Camera mainCamera;
-    public List<Unit> SelectedUnits { get; } = new List<Unit>();
+
+
 
     private void Start()
     {
@@ -51,7 +53,9 @@ public class UnitSelectionHandler : MonoBehaviour
 
     private void StartSelectionArea()
     {
-        DeselectUnits();
+        //Shift key will append to current list
+        if (!Keyboard.current.leftShiftKey.isPressed)
+            DeselectUnits();
 
         unitSelectionArea.gameObject.SetActive(true);
 
@@ -112,6 +116,8 @@ public class UnitSelectionHandler : MonoBehaviour
 
         foreach(Unit unit in player.GetMyUnits())
         {
+            if (SelectedUnits.Contains(unit)) { continue; } //Dont add units already in list
+
             Vector3 unitScreenPosition = mainCamera.WorldToScreenPoint(unit.transform.position);
             
             if (unitScreenPosition.x > min.x && unitScreenPosition.x < max.x &&
@@ -122,6 +128,4 @@ public class UnitSelectionHandler : MonoBehaviour
             }
         }
     }
-
-
 }
