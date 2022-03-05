@@ -20,7 +20,7 @@ public class UnitSelectionHandler : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
         mainCamera = Camera.main;
     }

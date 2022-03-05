@@ -15,7 +15,7 @@ public class UnitMovement : NetworkBehaviour
 
     [SerializeField] private float chaseRange = 10f;
 
-    private void Start()
+    private void Awake()
     {
         if (agent == null)
             agent = gameObject.GetComponent<NavMeshAgent>();
