@@ -148,3 +148,4 @@ MonoBehaviour:
   rb: {fileID: 9116846661073091010}
   destroyAfterSeconds: 5
   launchForce: 10
+  damageToDeal: 25
