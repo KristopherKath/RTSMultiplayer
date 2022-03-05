@@ -9,13 +9,18 @@ public class UnitMovement : NetworkBehaviour
 {
     [Tooltip("The targeter script to handle targeting calls")]
     [SerializeField] private Targeter targeter = null;
-    
-    private NavMeshAgent agent = null;
+
+    [Tooltip("The nav mesh agent")]
+    [SerializeField] private NavMeshAgent agent = null;
+
+    [SerializeField] private float chaseRange = 10f;
 
     private void Start()
     {
-        agent = gameObject.GetComponent<NavMeshAgent>();
-        targeter = gameObject.GetComponent<Targeter>();
+        if (agent == null)
+            agent = gameObject.GetComponent<NavMeshAgent>();
+        if (targeter == null)
+            targeter = gameObject.GetComponent<Targeter>();
     }
 
 
@@ -26,10 +31,27 @@ public class UnitMovement : NetworkBehaviour
     [ServerCallback] //Only server can call this method, and it wont log warnings to the console
     private void Update()
     {
+        Targetable target = targeter.GetTarget();
+
+        //Handle targeting
+        if (target != null) 
+        { 
+            //if out of chase range then chase
+            if ((target.transform.position - transform.position).sqrMagnitude > chaseRange * chaseRange)
+            {
+                agent.SetDestination(target.transform.position);
+            }
+            //stop chasing
+            else if (agent.hasPath)
+            {
+                agent.ResetPath();
+            }
+            return; 
+        }
+
+        //movement logic
         if (!agent.hasPath) { return; } //stops bug where tanks dont move sometimes
-
         if (agent.remainingDistance > agent.stoppingDistance) { return; }
-
         agent.ResetPath(); //This will stop tanks from colliding with eachother to reach a location
     }
 
