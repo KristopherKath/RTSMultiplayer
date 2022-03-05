@@ -17,9 +17,9 @@ public class UnitMovement : NetworkBehaviour
 
     private void Awake()
     {
-        if (agent == null)
+        if (!agent)
             agent = gameObject.GetComponent<NavMeshAgent>();
-        if (targeter == null)
+        if (!targeter)
             targeter = gameObject.GetComponent<Targeter>();
     }
 

@@ -12,7 +12,7 @@ public class HealthDisplay : MonoBehaviour
 
     private void Awake()
     {
-        if (health == null)
+        if (!health)
             health = GetComponent<Health>();
 
         health.ClientOnHealthUpdated += HandleHealthUpdated; //subscribe to health event

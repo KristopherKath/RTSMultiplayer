@@ -12,7 +12,7 @@ public class UnitProjectile : NetworkBehaviour
 
     private void Awake()
     {
-        if (rb == null)
+        if (!rb)
             rb = GetComponent<Rigidbody>();
     }
 

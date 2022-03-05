@@ -7,13 +7,17 @@ using System;
 
 [RequireComponent(typeof(UnitMovement))]
 [RequireComponent(typeof(Targeter))]
+[RequireComponent(typeof(Health))]
 public class Unit : NetworkBehaviour
 {
-    [SerializeField] private UnityEvent onSelected = null;
-    [SerializeField] private UnityEvent onDeselected = null;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnitMovement unitMovement = null;
-   
+    [SerializeField] private Health health = null;   
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent onSelected = null;
+    [SerializeField] private UnityEvent onDeselected = null;
+
     public UnitMovement GetUnitMovement() => unitMovement;
     public Targeter GetTargeter() => targeter;
 
@@ -28,6 +32,9 @@ public class Unit : NetworkBehaviour
 
     private void Awake()
     {
+        if (!health)
+            health = GetComponent<Health>();
+
         if (!unitMovement)
             unitMovement = gameObject.GetComponent<UnitMovement>();
 
@@ -39,12 +46,22 @@ public class Unit : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        health.ServerOnDie += ServerHandleOnDie;
+
         ServerOnUnitSpawned?.Invoke(this);
     }
 
     public override void OnStopServer()
     {
+        health.ServerOnDie -= ServerHandleOnDie;
+
         ServerOnUnitDespawned?.Invoke(this);
+    }
+
+    [Server]
+    private void ServerHandleOnDie()
+    {
+        NetworkServer.Destroy(gameObject);
     }
 
     #endregion
@@ -67,17 +84,15 @@ public class Unit : NetworkBehaviour
         onDeselected?.Invoke(); 
     }
 
-    public override void OnStartClient()
+    public override void OnStartAuthority()
     {
-        //if client has authority & only a client (no host/server)
-        if (!hasAuthority || !isClientOnly) { return; }
-
         AuthorityOnUnitSpawned?.Invoke(this);
     }
 
     public override void OnStopClient()
     {
-        if (!hasAuthority || !isClientOnly) { return; }
+        //if client has authority & only a client (no host/server)
+        if (!hasAuthority) { return; }
 
         AuthorityOnUnitDespawned?.Invoke(this);
     }

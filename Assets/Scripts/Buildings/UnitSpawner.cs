@@ -4,13 +4,39 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(Health))]
 public class UnitSpawner : NetworkBehaviour, IPointerClickHandler
 {
+    [SerializeField] private Health health = null;
     [SerializeField] private GameObject unitPrefab;
     [SerializeField] private Transform spawnPoint;
 
+    private void Awake()
+    {
+        if (!health)
+            health = GetComponent<Health>();
+    }
+
 
     #region Server
+
+
+    public override void OnStartServer()
+    {
+        health.ServerOnDie += ServerHandleOnDie;
+    }
+
+    public override void OnStopServer()
+    {
+        health.ServerOnDie -= ServerHandleOnDie;
+    }
+
+    [Server]
+    private void ServerHandleOnDie()
+    {
+        NetworkServer.Destroy(gameObject);
+    }
+
 
     [Command]
     private void CmdSpawnUnit()

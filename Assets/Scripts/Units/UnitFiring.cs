@@ -18,7 +18,7 @@ public class UnitFiring : NetworkBehaviour
 
     private void Awake()
     {
-        if (targeter == null)
+        if (!targeter)
             targeter = gameObject.GetComponent<Targeter>();
     }
 
