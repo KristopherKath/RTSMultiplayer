@@ -27,7 +27,23 @@ public class UnitMovement : NetworkBehaviour
     //Server run procedures
     #region Server
 
-    
+    public override void OnStartServer()
+    {
+        GameOverHandler.ServerOnGameOver += ServerHandleGameOver;
+    }
+
+    public override void OnStopServer()
+    {
+        GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
+    }
+
+    [Server]
+    private void ServerHandleGameOver()
+    {
+        agent.ResetPath();
+    }
+
+
     [ServerCallback] //Only server can call this method, and it wont log warnings to the console
     private void Update()
     {

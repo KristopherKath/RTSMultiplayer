@@ -16,12 +16,21 @@ public class UnitCommandGiver : MonoBehaviour
             unitSelectionHandler = gameObject.GetComponent<UnitSelectionHandler>();
 
         mainCamera = Camera.main;
+
+        GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
+    }
+
+    private void OnDestroy()
+    {
+        GameOverHandler.ClientOnGameOver -= ClientHandleGameOver;
     }
 
     private void Update()
     {
         TryMovementCommand();
     }
+
+
 
     private void TryMovementCommand()
     {
@@ -62,5 +71,10 @@ public class UnitCommandGiver : MonoBehaviour
         {
             unit.GetTargeter().CmdSetTarget(target.gameObject);
         }
+    }
+
+    private void ClientHandleGameOver(string winnerName)
+    {
+        enabled = false;
     }
 }
