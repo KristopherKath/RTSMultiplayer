@@ -306,6 +306,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1894803921680150792, guid: 674b5daf3a78cf940bf87ae9a6a77438, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894803921680150792, guid: 674b5daf3a78cf940bf87ae9a6a77438, type: 3}
       propertyPath: offlineScene
       value: Assets/Scenes/Scene_Menu.unity
       objectReference: {fileID: 0}
