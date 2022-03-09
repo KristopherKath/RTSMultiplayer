@@ -67,13 +67,17 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private void UpdateBuildingPreview()
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) 
+        { 
+            if (buildingPreviewInsance.activeSelf)
+                buildingPreviewInsance.SetActive(false);
+            return; 
+        }
+
         buildingPreviewInsance.transform.position = hit.point;
 
         if (!buildingPreviewInsance.activeSelf)
-        {
             buildingPreviewInsance.SetActive(true);
-        }
     }
 
 }
