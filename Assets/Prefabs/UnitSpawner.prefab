@@ -102,7 +102,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnitSpawnerPreview
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8152800018866617718, guid: c4a63690fa8c16249af57a35e0c41f04, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c4a63690fa8c16249af57a35e0c41f04, type: 3}
 --- !u!4 &1111862340333546696 stripped
 Transform:
