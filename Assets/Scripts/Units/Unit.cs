@@ -10,6 +10,8 @@ using System;
 [RequireComponent(typeof(Health))]
 public class Unit : NetworkBehaviour
 {
+
+    [SerializeField] private int resurceCost;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnitMovement unitMovement = null;
     [SerializeField] private Health health = null;   
@@ -30,6 +32,7 @@ public class Unit : NetworkBehaviour
     //Getters
     public UnitMovement GetUnitMovement() => unitMovement;
     public Targeter GetTargeter() => targeter;
+    public int GetResourceCost() => resurceCost;
 
 
     private void Awake()

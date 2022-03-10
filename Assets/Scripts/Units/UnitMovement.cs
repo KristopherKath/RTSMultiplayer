@@ -69,8 +69,15 @@ public class UnitMovement : NetworkBehaviour
         agent.ResetPath(); //This will stop tanks from colliding with eachother to reach a location
     }
 
+    //End point for which a client can call. Server cannot call this
     [Command]
     public void CmdMove(Vector3 pos)
+    {
+        ServerMove(pos);
+    }
+
+    [Server]
+    public void ServerMove(Vector3 pos)
     {
         if (targeter)
             targeter.ClearTarget();
