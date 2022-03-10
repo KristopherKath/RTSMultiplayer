@@ -8,8 +8,8 @@ public class GameOverHandler : NetworkBehaviour
 {
     private List<UnitBase> bases = new List<UnitBase>();
 
+    //Events
     public static event Action<string> ClientOnGameOver;
-
     public static event Action ServerOnGameOver;
 
     #region Server

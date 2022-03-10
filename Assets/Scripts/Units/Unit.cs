@@ -18,16 +18,18 @@ public class Unit : NetworkBehaviour
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
 
-    public UnitMovement GetUnitMovement() => unitMovement;
-    public Targeter GetTargeter() => targeter;
 
+    //Events
     //These events are only being called on the server
     public static event Action<Unit> ServerOnUnitSpawned; //using a C# event
     public static event Action<Unit> ServerOnUnitDespawned;
-
     //Thses events are only being called on the clients
     public static event Action<Unit> AuthorityOnUnitSpawned;
     public static event Action<Unit> AuthorityOnUnitDespawned;
+
+    //Getters
+    public UnitMovement GetUnitMovement() => unitMovement;
+    public Targeter GetTargeter() => targeter;
 
 
     private void Awake()

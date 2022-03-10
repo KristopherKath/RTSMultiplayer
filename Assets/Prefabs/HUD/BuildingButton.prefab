@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442f1bda6d7796e43a6f6f9f741c7eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 0}
+  building: {fileID: 3811375528944217745, guid: 534dff9cf85dc0b4284d6a1caa2447c6, type: 3}
   iconImage: {fileID: 5433171568787008144}
   priceText: {fileID: 1856298782835371952}
   floorMask:

@@ -7,17 +7,17 @@ using System;
 public class Building : NetworkBehaviour
 {
     [SerializeField] private GameObject buildingPreview;
-
     [SerializeField] private Sprite icon;
     [SerializeField] private int id = -1;
     [SerializeField] private int price = 100;
 
+    //Events
     public static event Action<Building> ServerOnBuildingSpawned;
     public static event Action<Building> ServerOnBuildingDespawned;
-
     public static event Action<Building> AuthorityOnBuildingSpawned;
     public static event Action<Building> AuthorityOnBuildingDespawned;
 
+    //Getters
     public Sprite GetIcon() => icon;
     public int GetID() => id;
     public int GetPrice() => price;

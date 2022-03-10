@@ -11,8 +11,8 @@ public class Health : NetworkBehaviour
     [SyncVar(hook = nameof(HandleHealthUpdated))] //when this value gets updated call the hooked method
     private int currentHealth;
 
+    //Events
     public event Action ServerOnDie;
-
     public event Action<int, int> ClientOnHealthUpdated; 
 
     #region Server 

@@ -9,10 +9,8 @@ public class UnitMovement : NetworkBehaviour
 {
     [Tooltip("The targeter script to handle targeting calls")]
     [SerializeField] private Targeter targeter = null;
-
     [Tooltip("The nav mesh agent")]
     [SerializeField] private NavMeshAgent agent = null;
-
     [SerializeField] private float chaseRange = 10f;
 
     private void Awake()

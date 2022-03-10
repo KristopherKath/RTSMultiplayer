@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718859403510482787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3905699, y: -1.1553832, z: -1.9548622}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,3 +65,4 @@ MonoBehaviour:
   syncInterval: 0.1
   buildings:
   - {fileID: 3811375528944217745, guid: b16b2820bd158344fb55f792ebc0d67a, type: 3}
+  - {fileID: 3811375528944217745, guid: 534dff9cf85dc0b4284d6a1caa2447c6, type: 3}

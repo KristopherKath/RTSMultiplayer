@@ -9,8 +9,8 @@ class UnitBase : NetworkBehaviour
 {
     [SerializeField] private Health health;
 
+    //Events
     public static event Action<int> ServerOnPlayerDie;
-
     public static event Action<UnitBase> ServerOnBaseSpawned;
     public static event Action<UnitBase> ServerOnBaseDespawned;
 
