@@ -15,6 +15,9 @@ public class RTSNetworkingManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
 
+        RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
+        player.SetTeamColor(new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+
         //Spawn the unit spawner prefab
         GameObject unitSpawnerInstance = Instantiate(
             unitSpawnerPrefab, 
