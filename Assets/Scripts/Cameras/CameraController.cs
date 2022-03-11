@@ -8,7 +8,7 @@ public class CameraController : NetworkBehaviour
 {
     [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private float speed = 20f;
-        [Tooltip("The range from screen border to move camera")]
+        [Tooltip("The range from screen border to move camera (cursor)")]
     [SerializeField] private float screenBorderThickness = 10f; 
     [SerializeField] private Vector2 screenXLimits = Vector2.zero;
     [SerializeField] private Vector2 screenZLimits = Vector2.zero;
