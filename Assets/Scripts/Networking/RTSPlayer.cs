@@ -6,8 +6,9 @@ using System;
 
 public class RTSPlayer : NetworkBehaviour
 {
+    [SerializeField] private LayerMask buildingBlockLayer = new LayerMask();
     [SerializeField] private Building[] buildings = new Building[0];
-
+    [SerializeField] private float buildingRangeLimit = 5f;
 
     [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
     private int resources = 500;
@@ -26,6 +27,35 @@ public class RTSPlayer : NetworkBehaviour
 
     //Setters
     public void SetResources(int newResource) => resources = newResource;
+
+
+    public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 pos)
+    {
+        //check if we are overlapping anything in layer
+        if (Physics.CheckBox(
+            pos + buildingCollider.center,
+            buildingCollider.size / 2,
+            Quaternion.identity,
+            buildingBlockLayer))
+        {
+            Debug.Log("Overlapping");
+            return false;
+        }
+
+        //check if we are in range of another building
+        foreach (Building building in myBuildings)
+        {
+            if ((pos - building.transform.position).sqrMagnitude
+                <= buildingRangeLimit * buildingRangeLimit)
+            {
+                print("In Range");
+                return true;
+            }
+        }
+
+        print("Out of Range");
+        return false;
+    }
 
 
     #region Server
@@ -91,9 +121,20 @@ public class RTSPlayer : NetworkBehaviour
     
         if (!buildingToPlace) { return; }
 
+
+        //check if we have enough money
+        if (resources < buildingToPlace.GetPrice()) { return; }
+
+
+        BoxCollider buildingCollider = buildingToPlace.GetComponent<BoxCollider>();
+        if (!CanPlaceBuilding(buildingCollider, pos)) { return; }
+
+
         //spawn building on spot and network server spawn it
         GameObject buildingInstance = Instantiate(buildingToPlace.gameObject, pos, buildingToPlace.transform.rotation);
         NetworkServer.Spawn(buildingInstance, connectionToClient);
+
+        SetResources(resources - buildingToPlace.GetPrice());
     }
 
     #endregion

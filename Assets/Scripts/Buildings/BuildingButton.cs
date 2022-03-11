@@ -15,6 +15,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     [SerializeField] private LayerMask floorMask = new LayerMask(); //for checking if we place on floor
 
     private Camera mainCamera;
+    private BoxCollider buildingCollider;
     private RTSPlayer player;
     private GameObject buildingPreviewInsance;
     private Renderer buildingRendererInstance;
@@ -24,6 +25,7 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     {
         mainCamera = Camera.main;
 
+        buildingCollider = building.GetComponent<BoxCollider>();
         iconImage.sprite = building.GetIcon();
         priceText.text = building.GetPrice().ToString();
     }
@@ -42,6 +44,8 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
+
+        if (player.GetResources() < building.GetPrice()) { return; }
 
         buildingPreviewInsance = Instantiate(building.GetBuildingPreview());
         buildingRendererInstance = buildingPreviewInsance.GetComponentInChildren<Renderer>();
@@ -80,6 +84,12 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
         if (!buildingPreviewInsance.activeSelf)
             buildingPreviewInsance.SetActive(true);
+
+        Color color = player.CanPlaceBuilding(buildingCollider, hit.point) ? Color.green : Color.red;
+
+        Debug.Log(color);
+
+        buildingRendererInstance.material.SetColor("_Color", color);
     }
 
 }
