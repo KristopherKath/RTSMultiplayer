@@ -24,13 +24,11 @@ public class Minimap : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        print("Clicked down");
         MoveCamera();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        print("Dragged");
         MoveCamera();
     }
 

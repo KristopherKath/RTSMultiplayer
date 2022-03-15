@@ -38,7 +38,6 @@ public class RTSPlayer : NetworkBehaviour
             Quaternion.identity,
             buildingBlockLayer))
         {
-            Debug.Log("Overlapping");
             return false;
         }
 
@@ -48,12 +47,9 @@ public class RTSPlayer : NetworkBehaviour
             if ((pos - building.transform.position).sqrMagnitude
                 <= buildingRangeLimit * buildingRangeLimit)
             {
-                print("In Range");
                 return true;
             }
         }
-
-        print("Out of Range");
         return false;
     }
 
