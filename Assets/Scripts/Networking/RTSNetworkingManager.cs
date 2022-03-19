@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using System;
 
 public class RTSNetworkingManager : NetworkManager
 {
@@ -10,22 +11,34 @@ public class RTSNetworkingManager : NetworkManager
     [SerializeField] private GameObject unitSpawnerPrefab;
     [SerializeField] private GameOverHandler gameOverHandlerPrefab;
 
+
+    public static event Action ClientOnConnected;
+    public static event Action ClientOnDisconnected;
+
+
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        base.OnClientConnect();
+
+        ClientOnConnected?.Invoke();
+    }
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        base.OnClientDisconnect();
+
+        ClientOnDisconnected?.Invoke();
+    }
+
     //Occurs after the player is created
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
 
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
-        player.SetTeamColor(new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
-
-        //Spawn the unit spawner prefab
-        GameObject unitSpawnerInstance = Instantiate(
-            unitSpawnerPrefab, 
-            conn.identity.transform.position, 
-            conn.identity.transform.rotation);
-
-        //Spawn gameobject for each client and give owner to prefab
-        NetworkServer.Spawn(unitSpawnerInstance, conn);
+        player.SetTeamColor(new Color(
+            UnityEngine.Random.Range(0f, 1f), 
+            UnityEngine.Random.Range(0f, 1f), 
+            UnityEngine.Random.Range(0f, 1f)));
     }
 
     public override void OnServerSceneChanged(string sceneName)
