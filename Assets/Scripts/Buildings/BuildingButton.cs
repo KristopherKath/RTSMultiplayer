@@ -87,7 +87,11 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
         Color color = player.CanPlaceBuilding(buildingCollider, hit.point) ? Color.green : Color.red;
 
-        buildingRendererInstance.material.SetColor("_BaseColor", color);
+        List<Material> materials = new List<Material>();
+        buildingRendererInstance.GetMaterials(materials);
+
+        foreach (Material mat in materials)
+            mat.SetColor("_BaseColor", color);
     }
 
 }

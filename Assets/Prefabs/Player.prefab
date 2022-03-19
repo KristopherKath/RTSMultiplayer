@@ -114,8 +114,9 @@ MonoBehaviour:
     m_Bits: 1281
   buildingRangeLimit: 5
   buildings:
-  - {fileID: 7527837520473460766, guid: 7aa9f8e61e5d5f143b9f9022de788612, type: 3}
   - {fileID: 3811375528944217745, guid: 534dff9cf85dc0b4284d6a1caa2447c6, type: 3}
+  - {fileID: 7527837520473460766, guid: 7aa9f8e61e5d5f143b9f9022de788612, type: 3}
+  - {fileID: 8497290758367849527, guid: 6938f2c96b9a5a44ba2c38fca4d0dc2f, type: 3}
 --- !u!114 &6677292603180972361
 MonoBehaviour:
   m_ObjectHideFlags: 0
