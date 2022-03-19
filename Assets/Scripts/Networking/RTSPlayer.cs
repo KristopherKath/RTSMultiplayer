@@ -18,10 +18,15 @@ public class RTSPlayer : NetworkBehaviour
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
     private Color teamColor = new Color();
+    [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
+    private string displayName;
 
     //Events
     public event Action<int> ClientOnResourcesUpdated;
+
+    public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
+
 
 
     //Getters
@@ -31,6 +36,7 @@ public class RTSPlayer : NetworkBehaviour
     public int GetResources() => resources;
     public Color GetTeamColor() => teamColor;
     public Transform GetCameraTransform() => cameraTransform;
+    public string GetDisplayName() => displayName;
 
 
     public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 pos)
@@ -73,7 +79,8 @@ public class RTSPlayer : NetworkBehaviour
         Unit.ServerOnUnitDespawned += ServerHandleUnitDespawned;
         Building.ServerOnBuildingSpawned += ServerHandleBuildingSpawned;
         Building.ServerOnBuildingDespawned += ServerHandlerBuildingDespawned;
-    
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStopServer()
@@ -91,6 +98,9 @@ public class RTSPlayer : NetworkBehaviour
 
     [Server]
     public void SetTeamColor(Color newColor) => teamColor = newColor;
+
+    [Server]
+    public void SetDisplayName(string displayName) => this.displayName = displayName;
 
 
 
@@ -182,10 +192,14 @@ public class RTSPlayer : NetworkBehaviour
         if (NetworkServer.active) { return; } //stops host from adding twice
 
        ((RTSNetworkingManager)NetworkManager.singleton).players.Add(this);
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStopClient()
     {
+        ClientOnInfoUpdated?.Invoke();
+
         if (!isClientOnly) { return; }
 
         ((RTSNetworkingManager)NetworkManager.singleton).players.Remove(this); //store list of all players
@@ -229,6 +243,11 @@ public class RTSPlayer : NetworkBehaviour
     private void ClientHandleResourcesUpdated(int oldResource, int newResource)
     {
         ClientOnResourcesUpdated?.Invoke(newResource);
+    }
+
+    private void ClientHandleDisplayNameUpdated(string oldDisplayName, string newDisplayName)
+    {
+        ClientOnInfoUpdated?.Invoke();
     }
 
     #endregion

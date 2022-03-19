@@ -60,11 +60,12 @@ public class RTSNetworkingManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
 
-
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
 
         players.Add(player);
-        
+
+        player.SetDisplayName($"Player {players.Count}");
+
         player.SetTeamColor(new Color(
             UnityEngine.Random.Range(0f, 1f),
             UnityEngine.Random.Range(0f, 1f),
