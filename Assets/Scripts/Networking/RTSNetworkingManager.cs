@@ -22,15 +22,14 @@ public class RTSNetworkingManager : NetworkManager
 
 
     #region Server
-
-    public override void OnServerConnect(NetworkConnection conn)
+    public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         if (!isGameInProgress) { return; }
 
         conn.Disconnect();
     }
 
-    public override void OnServerDisconnect(NetworkConnection conn)
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
 
@@ -56,7 +55,7 @@ public class RTSNetworkingManager : NetworkManager
     }
 
     //Occurs after the player is created
-    public override void OnServerAddPlayer(NetworkConnection conn)
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
 
@@ -101,6 +100,10 @@ public class RTSNetworkingManager : NetworkManager
 
 
     #region Client
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+    }
     public override void OnClientConnect(NetworkConnection conn)
     {
         base.OnClientConnect();
