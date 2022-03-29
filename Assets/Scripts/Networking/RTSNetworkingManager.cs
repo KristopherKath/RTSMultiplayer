@@ -16,7 +16,6 @@ public class RTSNetworkingManager : NetworkManager
     public List<RTSPlayer> players { get; } = new List<RTSPlayer>();
 
 
-
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
