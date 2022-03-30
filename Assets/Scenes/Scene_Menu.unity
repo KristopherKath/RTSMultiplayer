@@ -3302,6 +3302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landingPagePanel: {fileID: 2090679941}
+  lobbyWaitingPanel: {fileID: 1414019834}
   useSteam: 1
 --- !u!1 &1464831181
 GameObject:

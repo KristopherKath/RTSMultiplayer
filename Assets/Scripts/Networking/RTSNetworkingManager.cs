@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using System;
+using Steamworks;
 
 public class RTSNetworkingManager : NetworkManager
 {
@@ -123,6 +124,15 @@ public class RTSNetworkingManager : NetworkManager
     #endregion
 
 
+    public bool IsUsingSteam()
+    {
+        return transport.GetType() == typeof(Mirror.FizzySteam.FizzySteamworks);
+    }
 
+    public override void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
+        if (IsUsingSteam()) SteamAPI.Shutdown();
+    }
 
 }
